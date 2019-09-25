@@ -12,14 +12,15 @@
   
         <v-card>
           <v-card-title
-            class="headline red lighten-2"
+            class="headline red lighten-3"
             primary-title
+            dark
           >
-            Remove from queue
+            Remove from queue?
           </v-card-title>
   
           <v-card-text>
-            <p>
+            <p class="body-1">
                 This will remove you from the Karaoke queue.<br>
                 Are you sure?
             </p>
