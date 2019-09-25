@@ -5,7 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    songList: [
+      'Skkobido',
+      'Mullvadens återkomst',
+      'Smurfhits klassiker'
+    ]
   },
   mutations: {
 
