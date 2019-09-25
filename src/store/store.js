@@ -9,10 +9,13 @@ export default new Vuex.Store({
       'Skkobido',
       'Mullvadens återkomst',
       'Smurfhits klassiker'
-    ]
+    ],
+    registrations: []
   },
   mutations: {
-
+    trackRegistration(state, registration){
+      state.registrations.push(registration);
+    }
   },
   actions: {
 

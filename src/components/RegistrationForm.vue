@@ -79,7 +79,7 @@ export default {
                 lastname: this.lastname,
                 song: this.song
             }
-            console.log(songrequest);
+            this.$store.commit('trackRegistration', songrequest);
 
             this.$refs.form.reset();
         }
