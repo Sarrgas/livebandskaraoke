@@ -8,13 +8,18 @@ export default new Vuex.Store({
     songList: [
       'Skkobido',
       'Mullvadens återkomst',
-      'Smurfhits klassiker'
+      'Smurfhits klassiker',
+      "Elvis Costello - What's so Funny About Peace Love and Understanding"
     ],
     registrations: []
   },
   mutations: {
     trackRegistration(state, registration){
       state.registrations.push(registration);
+    },
+    removeRegistration(state, registration){
+      let index = state.registrations.indexOf(registration.song);
+      state.registrations.splice(index, 1);
     }
   },
   actions: {

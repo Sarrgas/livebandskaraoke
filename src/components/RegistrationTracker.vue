@@ -10,20 +10,26 @@
             </v-list-item-content>
 
             <v-list-item-action>
-            <v-btn icon>
-                <v-icon color="red">mdi-close-circle</v-icon>
-            </v-btn>
+             <ConfirmDialog :registration="reg"/>
             </v-list-item-action>
         </v-list-item>
     </div>
 </template>
 
 <script>
+import ConfirmDialog from './ConfirmDialog'
+
 export default {
     name: 'RegistrationTracker',
+    components: {ConfirmDialog},
     data() {
         return {
             registrations: this.$store.state.registrations
+        }
+    },
+    methods: {
+        removeRegistration(registration){
+            this.$store.commit('removeRegistration', registration);
         }
     }
 }
