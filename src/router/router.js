@@ -11,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      alias: '/sing',
+      alias: ['/sing', '/sjung'],
       name: 'sing',
       component: SingPage
     },

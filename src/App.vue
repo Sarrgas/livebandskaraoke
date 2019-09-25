@@ -6,10 +6,10 @@
       background-color="indigo"
       dark
     >
-      <v-tab href="#sing" :to="{path: '/sing'}">
+      <v-tab href="#sing" :to="{name: 'sing'}">
         Sing
       </v-tab>
-      <v-tab href="#songs" :to="{path: '/songs'}">
+      <v-tab href="#songs" :to="{name: 'songs'}">
         Songs
       </v-tab>
     </v-tabs>
