@@ -1,24 +1,48 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getSongs, getRegistrations } from '../db/db';
+import { getSongs, getRegistrations, getTimeStamp, submitSongRequest } from '../db/db';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     songList: [],
-    registrations: []
+    trackedRegistrations: [],
+    allRegistrations: [],
+    myRegistrationId: '',
   },
   mutations: {
     trackRegistration(state, registration){
-      state.registrations.push(registration);
+      state.trackedRegistrations.push(registration);
     },
     removeRegistration(state, registration){
-      let index = state.registrations.indexOf(registration.song);
-      state.registrations.splice(index, 1);
+      let index = state.trackedRegistrations.findIndex(i => i.id = registration.id);
+      state.trackedRegistrations.splice(index, 1);
     },
     addSong(state, song){
       state.songList.push(song);
+    },
+    addToAllRegistrations(state, registration){
+      state.allRegistrations.push(registration);
+    },
+    removeFromAllRegistrations(state, registration){
+      let index = state.allRegistrations.findIndex(i => i.id = registration.id);
+      state.allRegistrations.splice(index, 1);
+    },
+    setMyRegistrationId(state, myid){
+      state.myRegistrationId = myid;
+    }
+  },
+  getters: {
+    myPositionInQueue(state) {
+      console.log('My position in queue');
+      let sortedList = state.allRegistrations.sort((a, b) => {
+        return a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0;
+      })
+      console.log('Sorted list?');
+      console.log(sortedList.map(t => t.timestamp.toDate()));
+
+      return sortedList.findIndex(i => i.id == state.myRegistrationId) +1;
     }
   },
   actions: {
@@ -33,9 +57,39 @@ export default new Vuex.Store({
 
       getRegistrations().onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
-          console.log(change);
+          console.log(change, change.doc.data());
+
+          const registration = {
+            id: change.doc.id,
+            timestamp: change.doc.data().timestamp
+          } 
+
           // Lyssna efter removed-event och räkna om tidsestimat.
+          if (change.type === 'removed') {
+            console.log('Recalculate');
+            commit('removeFromAllRegistrations', registration);
+          }
+
+          if (change.type === 'added') {
+            commit('addToAllRegistrations', registration)
+          }
         });
+      });
+    },
+    submit({commit}, songrequest){
+      const timestamp = getTimeStamp();
+      const registration = {
+        firstname: songrequest.firstname,
+        lastname: songrequest.lastname,
+        song: songrequest.song,
+        timestamp
+      };
+      commit('trackRegistration', registration);
+      submitSongRequest(registration).then(newdoc => {
+        newdoc.get().then(doc => {
+          console.log('DB responded with: ', doc.id, doc.data());
+          commit('setMyRegistrationId', doc.id);
+        })
       });
     }
   }

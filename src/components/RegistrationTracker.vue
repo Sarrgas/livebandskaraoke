@@ -4,6 +4,7 @@
             v-for="reg in registrations"
             :key="reg.song"
             >
+            <v-list-item-avatar color="grey lighten-2">{{myPositionInQueue}}</v-list-item-avatar>
             <v-list-item-content>
             <v-list-item-title>{{ reg.firstname }} {{ reg.lastname }}</v-list-item-title>
             <v-list-item-subtitle v-text="reg.song"></v-list-item-subtitle>
@@ -24,7 +25,12 @@ export default {
     components: {ConfirmDialog},
     data() {
         return {
-            registrations: this.$store.state.registrations
+            registrations: this.$store.state.trackedRegistrations
+        }
+    },
+    computed: {
+        myPositionInQueue(){
+            return this.$store.getters.myPositionInQueue;
         }
     },
     methods: {

@@ -13,4 +13,12 @@ function getRegistrations(){
     return db.collection('registrations');
 }
 
-export { getSongs, getRegistrations }
+function getTimeStamp() {
+    return firebase.firestore.Timestamp.now();
+}
+
+function submitSongRequest(songrequest){
+    return db.collection('registrations').add(songrequest);
+}
+
+export { getSongs, getRegistrations, getTimeStamp, submitSongRequest }
