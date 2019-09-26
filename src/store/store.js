@@ -8,8 +8,7 @@ export default new Vuex.Store({
   state: {
     songList: [],
     trackedRegistrations: [],
-    allRegistrations: [],
-    myRegistrationId: '',
+    allRegistrations: []
   },
   mutations: {
     trackRegistration(state, registration){
@@ -29,9 +28,6 @@ export default new Vuex.Store({
       let index = state.allRegistrations.findIndex(i => i.id == registration.id);
       state.allRegistrations.splice(index, 1);
     },
-    setMyRegistrationId(state, myid){
-      state.myRegistrationId = myid;
-    }
   },
   getters: {
     getSortedRegistrationList(state){
@@ -79,8 +75,6 @@ export default new Vuex.Store({
       submitSongRequest(registration).then(newdoc => {
         newdoc.get().then(doc => {
           console.log('DB responded with: ', doc.id, doc.data());
-          commit('setMyRegistrationId', doc.id);
-          // registration.id = doc.id;
           commit('trackRegistration', {id: doc.id, ...registration});
         })
       });
