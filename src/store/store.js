@@ -16,7 +16,7 @@ export default new Vuex.Store({
       state.trackedRegistrations.push(registration);
     },
     removeRegistration(state, registration){
-      let index = state.trackedRegistrations.findIndex(i => i.id = registration.id);
+      let index = state.trackedRegistrations.findIndex(i => i.id == registration.id);
       state.trackedRegistrations.splice(index, 1);
     },
     addSong(state, song){
@@ -26,7 +26,7 @@ export default new Vuex.Store({
       state.allRegistrations.push(registration);
     },
     removeFromAllRegistrations(state, registration){
-      let index = state.allRegistrations.findIndex(i => i.id = registration.id);
+      let index = state.allRegistrations.findIndex(i => i.id == registration.id);
       state.allRegistrations.splice(index, 1);
     },
     setMyRegistrationId(state, myid){
@@ -34,15 +34,10 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    myPositionInQueue(state) {
-      console.log('My position in queue');
-      let sortedList = state.allRegistrations.sort((a, b) => {
+    getSortedRegistrationList(state){
+      return state.allRegistrations.sort((a, b) => {
         return a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0;
       })
-      console.log('Sorted list?');
-      console.log(sortedList.map(t => t.timestamp.toDate()));
-
-      return sortedList.findIndex(i => i.id == state.myRegistrationId) +1;
     }
   },
   actions: {
@@ -63,10 +58,7 @@ export default new Vuex.Store({
             id: change.doc.id,
             timestamp: change.doc.data().timestamp
           } 
-
-          // Lyssna efter removed-event och räkna om tidsestimat.
           if (change.type === 'removed') {
-            console.log('Recalculate');
             commit('removeFromAllRegistrations', registration);
           }
 
@@ -82,15 +74,14 @@ export default new Vuex.Store({
         firstname: songrequest.firstname,
         lastname: songrequest.lastname,
         song: songrequest.song,
-        timestamp,
-        id: ''
+        timestamp
       };
       submitSongRequest(registration).then(newdoc => {
         newdoc.get().then(doc => {
           console.log('DB responded with: ', doc.id, doc.data());
           commit('setMyRegistrationId', doc.id);
-          registration.id = doc.id;
-          commit('trackRegistration', registration);
+          // registration.id = doc.id;
+          commit('trackRegistration', {id: doc.id, ...registration});
         })
       });
     },
