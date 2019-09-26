@@ -5,13 +5,12 @@ require("firebase/firestore");
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-
-function initialize() {
-    db.collection('registrations').onSnapshot((snapshot) => {
-        snapshot.docChanges().forEach(change => {
-            console.log(change.doc.data());
-        });
-    });
+function getSongs() {
+    return db.collection('songs').get();
 }
 
-export { initialize }
+function getRegistrations(){
+    return db.collection('registrations');
+}
+
+export { getSongs, getRegistrations }
