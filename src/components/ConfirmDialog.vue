@@ -48,7 +48,8 @@ export default {
     methods: {
         removeRegistration(){
             this.dialog = false;
-            this.$store.commit('removeRegistration', this.registration);
+            // this.$store.commit('removeRegistration', this.registration);
+            this.$store.dispatch('removeSongRequest', this.registration);
         },
     }
 }

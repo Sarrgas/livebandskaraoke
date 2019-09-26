@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getSongs, getRegistrations, getTimeStamp, submitSongRequest } from '../db/db';
+import { getSongs, getRegistrations, getTimeStamp, submitSongRequest, removeSongRequest } from '../db/db';
 
 Vue.use(Vuex)
 
@@ -78,19 +78,25 @@ export default new Vuex.Store({
     },
     submit({commit}, songrequest){
       const timestamp = getTimeStamp();
-      const registration = {
+      let registration = {
         firstname: songrequest.firstname,
         lastname: songrequest.lastname,
         song: songrequest.song,
-        timestamp
+        timestamp,
+        id: ''
       };
-      commit('trackRegistration', registration);
       submitSongRequest(registration).then(newdoc => {
         newdoc.get().then(doc => {
           console.log('DB responded with: ', doc.id, doc.data());
           commit('setMyRegistrationId', doc.id);
+          registration.id = doc.id;
+          commit('trackRegistration', registration);
         })
       });
+    },
+    removeSongRequest({commit}, songrequest){
+      commit('removeRegistration', songrequest);
+      removeSongRequest(songrequest);
     }
   }
 })

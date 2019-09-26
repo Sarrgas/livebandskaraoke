@@ -21,4 +21,12 @@ function submitSongRequest(songrequest){
     return db.collection('registrations').add(songrequest);
 }
 
-export { getSongs, getRegistrations, getTimeStamp, submitSongRequest }
+function removeSongRequest(songrequest){
+    db.collection('registrations').doc(songrequest.id).delete().then(function() {
+        console.log("Document successfully deleted!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+}
+
+export { getSongs, getRegistrations, getTimeStamp, submitSongRequest, removeSongRequest }

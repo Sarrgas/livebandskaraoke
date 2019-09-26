@@ -33,11 +33,11 @@ export default {
             return this.$store.getters.myPositionInQueue;
         }
     },
-    methods: {
-        removeRegistration(registration){
-            this.$store.commit('removeRegistration', registration);
-        }
-    }
+    // methods: {
+    //     removeRegistration(registration){
+    //         this.$store.commit('removeRegistration', registration);
+    //     }
+    // }
 }
 </script>
 
