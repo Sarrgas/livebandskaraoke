@@ -38,6 +38,12 @@ export default new Vuex.Store({
       return state.allSongrequests.sort((a, b) => {
         return a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0;
       })
+    },
+    getSongs(state){
+      return state.songList;
+    },
+    getSongsDisplayName(state){
+      return state.songList.map(song => song.displayName);
     }
   },
   actions: {
@@ -52,7 +58,7 @@ export default new Vuex.Store({
         const sortedSongList = songlist.sort((a, b) => {
           return a.number - b.number;
         });
-        commit('setSongs', sortedSongList.map(song => song.displayName));
+        commit('setSongs', sortedSongList);
       });
 
       getSongrequests().onSnapshot(snapshot => {

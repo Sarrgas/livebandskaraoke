@@ -69,7 +69,7 @@ export default {
     }),
     computed: {
         songlist() {
-            return this.$store.state.songList;
+            return this.$store.getters.getSongsDisplayName;
         }
     },
     methods: {
