@@ -2,7 +2,7 @@
     <div>
         <v-toolbar dense class="mb-2 searchbar">
             <v-icon>mdi-magnify</v-icon>
-            <v-text-field hide-details single-line v-model="search"></v-text-field>
+            <v-text-field hide-details single-line v-model="input"></v-text-field>
         </v-toolbar>  
                     
         <div v-for="(song, index) in songList" :key="index">
@@ -19,13 +19,23 @@ export default {
     components: {SongItem},
     data() {
         return {
-            search: '',
+            input: '',
+        }
+    },
+    methods: {
+        search(song){
+            let regex = /[^a-zA-Z0-9]/gm;
+
+            let displayname = song.displayName.toLowerCase().replace(regex, '');
+            let search = this.input.toLowerCase().replace(regex, '');
+
+            return displayname.includes(search);
         }
     },
     computed: {
         songList(){
             window.scrollTo(0, 0);
-            return this.$store.getters.getSongs.filter(song => song.displayName.toLowerCase().includes(this.search.toLowerCase()));
+            return this.$store.getters.getSongs.filter(song => this.search(song));
         }
     }
 }
