@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { getSongs, getSongrequests, getTimeStamp, submitSongrequest, removeSongrequest } from '../db/db';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex)
 
@@ -10,6 +11,9 @@ export default new Vuex.Store({
     trackedSongrequests: [],
     allSongrequests: []
   },
+  plugins: [createPersistedState({
+    paths: ['trackedSongrequests']
+  })],
   mutations: {
     trackSongrequest(state, songrequest){
       state.trackedSongrequests.push(songrequest);
@@ -18,8 +22,8 @@ export default new Vuex.Store({
       let index = state.trackedSongrequests.findIndex(i => i.id == songrequest.id);
       state.trackedSongrequests.splice(index, 1);
     },
-    addSong(state, song){
-      state.songList.push(song);
+    setSongs(state, songs){
+      state.songList = songs;
     },
     addToAllSongrequests(state, songrequest){
       state.allSongrequests.push(songrequest);
@@ -39,17 +43,20 @@ export default new Vuex.Store({
   actions: {
     init({commit}){
       getSongs().then(songs => {
+        let songlist = [];
         songs.docs.forEach(song => {
           let songdata = song.data();
-          let songDisplayName = `${songdata.artist} - ${songdata.song}`;
-          commit('addSong', songDisplayName);
+          let displayName = `${songdata.number}. ${songdata.artist} - ${songdata.song}`;
+          songlist.push({...songdata, displayName});
         });
+        const sortedSongList = songlist.sort((a, b) => {
+          return a.number - b.number;
+        });
+        commit('setSongs', sortedSongList.map(song => song.displayName));
       });
 
       getSongrequests().onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
-          console.log(change, change.doc.data());
-
           const songrequest = {
             id: change.doc.id,
             timestamp: change.doc.data().timestamp
