@@ -2,11 +2,11 @@
     <div>
         <v-toolbar dense class="mb-2 searchbar">
             <v-icon>mdi-magnify</v-icon>
-            <v-text-field hide-details single-line></v-text-field>
+            <v-text-field hide-details single-line v-model="search"></v-text-field>
         </v-toolbar>  
                     
         <div v-for="(song, index) in songList" :key="index">
-            <SongItem :song="song" />
+            <SongItem :song="song"/>
         </div>
     </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     },
     computed: {
         songList(){
-            return this.$store.getters.getSongs;
+            return this.$store.getters.getSongs.filter(song => song.displayName.toLowerCase().includes(this.search.toLowerCase()));
         }
     }
 }
