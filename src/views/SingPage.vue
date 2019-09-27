@@ -1,20 +1,20 @@
 <template>
     <div>
-        <RegistrationForm />
+        <SongrequestForm />
         <hr>
-        <RegistrationTracker />
+        <SongrequestTracker />
     </div>
 </template>
 
 <script>
-import RegistrationForm from '../components/RegistrationForm'
-import RegistrationTracker from '../components/RegistrationTracker'
+import SongrequestForm from '../components/SongrequestForm'
+import SongrequestTracker from '../components/SongrequestTracker'
 
 export default {
     name: 'SingPage',
     components: { 
-        RegistrationForm,
-        RegistrationTracker
+        SongrequestForm,
+        SongrequestTracker
     }
 }
 </script>

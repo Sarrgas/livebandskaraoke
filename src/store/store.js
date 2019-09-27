@@ -1,37 +1,37 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getSongs, getRegistrations, getTimeStamp, submitSongRequest, removeSongRequest } from '../db/db';
+import { getSongs, getSongrequests, getTimeStamp, submitSongrequest, removeSongrequest } from '../db/db';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     songList: [],
-    trackedRegistrations: [],
-    allRegistrations: []
+    trackedSongrequests: [],
+    allSongrequests: []
   },
   mutations: {
-    trackRegistration(state, registration){
-      state.trackedRegistrations.push(registration);
+    trackSongrequest(state, songrequest){
+      state.trackedSongrequests.push(songrequest);
     },
-    removeRegistration(state, registration){
-      let index = state.trackedRegistrations.findIndex(i => i.id == registration.id);
-      state.trackedRegistrations.splice(index, 1);
+    removeSongrequest(state, songrequest){
+      let index = state.trackedSongrequests.findIndex(i => i.id == songrequest.id);
+      state.trackedSongrequests.splice(index, 1);
     },
     addSong(state, song){
       state.songList.push(song);
     },
-    addToAllRegistrations(state, registration){
-      state.allRegistrations.push(registration);
+    addToAllSongrequests(state, songrequest){
+      state.allSongrequests.push(songrequest);
     },
-    removeFromAllRegistrations(state, registration){
-      let index = state.allRegistrations.findIndex(i => i.id == registration.id);
-      state.allRegistrations.splice(index, 1);
+    removeFromAllSongrequests(state, songrequest){
+      let index = state.allSongrequests.findIndex(i => i.id == songrequest.id);
+      state.allSongrequests.splice(index, 1);
     },
   },
   getters: {
-    getSortedRegistrationList(state){
-      return state.allRegistrations.sort((a, b) => {
+    getSortedSongrequestList(state){
+      return state.allSongrequests.sort((a, b) => {
         return a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0;
       })
     }
@@ -46,42 +46,40 @@ export default new Vuex.Store({
         });
       });
 
-      getRegistrations().onSnapshot(snapshot => {
+      getSongrequests().onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           console.log(change, change.doc.data());
 
-          const registration = {
+          const songrequest = {
             id: change.doc.id,
             timestamp: change.doc.data().timestamp
           } 
           if (change.type === 'removed') {
-            commit('removeFromAllRegistrations', registration);
+            commit('removeFromAllSongrequests', songrequest);
           }
 
           if (change.type === 'added') {
-            commit('addToAllRegistrations', registration)
+            commit('addToAllSongrequests', songrequest)
           }
         });
       });
     },
     submit({commit}, songrequest){
       const timestamp = getTimeStamp();
-      let registration = {
-        firstname: songrequest.firstname,
-        lastname: songrequest.lastname,
-        song: songrequest.song,
+      let timestampedSongrequest = {
+        ...songrequest,
         timestamp
       };
-      submitSongRequest(registration).then(newdoc => {
+      submitSongrequest(timestampedSongrequest).then(newdoc => {
         newdoc.get().then(doc => {
           console.log('DB responded with: ', doc.id, doc.data());
-          commit('trackRegistration', {id: doc.id, ...registration});
+          commit('trackSongrequest', {...timestampedSongrequest, id: doc.id});
         })
       });
     },
-    removeSongRequest({commit}, songrequest){
-      commit('removeRegistration', songrequest);
-      removeSongRequest(songrequest);
+    removeSongrequestFromQueue({commit}, songrequest){
+      commit('removeSongrequest', songrequest);
+      removeSongrequest(songrequest);
     }
   }
 })

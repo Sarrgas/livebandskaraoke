@@ -54,7 +54,7 @@
 
 <script>
 export default {
-    name: 'RegistrationForm',
+    name: 'SongrequestForm',
     data: () => ({
         valid: false,
         firstname: '',

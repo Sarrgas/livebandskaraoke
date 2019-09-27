@@ -31,7 +31,7 @@
          <v-card-actions>
             <div class="flex-grow-1"></div>
             <v-btn color="grey darken-1" text @click="dialog = false">Cancel</v-btn>
-            <v-btn color="red darken-1" text @click="removeRegistration">Yes, remove me</v-btn>
+            <v-btn color="red darken-1" text @click="removeSongrequest">Yes, remove me</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -39,17 +39,16 @@
 
 <script>
 export default {
-    props: ['registration'],
+    props: ['songrequest'],
     data(){
         return {
             dialog: false,
         }
     },
     methods: {
-        removeRegistration(){
+        removeSongrequest(){
             this.dialog = false;
-            // this.$store.commit('removeRegistration', this.registration);
-            this.$store.dispatch('removeSongRequest', this.registration);
+            this.$store.dispatch('removeSongrequestFromQueue', this.songrequest);
         },
     }
 }

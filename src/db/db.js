@@ -9,24 +9,25 @@ function getSongs() {
     return db.collection('songs').get();
 }
 
-function getRegistrations(){
-    return db.collection('registrations');
-}
 
 function getTimeStamp() {
     return firebase.firestore.Timestamp.now();
 }
 
-function submitSongRequest(songrequest){
-    return db.collection('registrations').add(songrequest);
+function getSongrequests(){
+    return db.collection('songrequests');
 }
 
-function removeSongRequest(songrequest){
-    db.collection('registrations').doc(songrequest.id).delete().then(function() {
+function submitSongrequest(songrequest){
+    return db.collection('songrequests').add(songrequest);
+}
+
+function removeSongrequest(songrequest){
+    db.collection('songrequests').doc(songrequest.id).delete().then(function() {
         console.log("Document successfully deleted!");
     }).catch(function(error) {
         console.error("Error removing document: ", error);
     });
 }
 
-export { getSongs, getRegistrations, getTimeStamp, submitSongRequest, removeSongRequest }
+export { getSongs, getSongrequests, getTimeStamp, submitSongrequest, removeSongrequest }
