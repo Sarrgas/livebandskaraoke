@@ -24,6 +24,7 @@ export default {
     },
     computed: {
         songList(){
+            window.scrollTo(0, 0);
             return this.$store.getters.getSongs.filter(song => song.displayName.toLowerCase().includes(this.search.toLowerCase()));
         }
     }
