@@ -3,7 +3,6 @@
     <v-container>
       <v-row>
         <v-col cols="12" md="4">
-            <p>Your name</p>
           <v-text-field
             v-model="firstname"
             :rules="nameRules"
@@ -24,8 +23,8 @@
 
       <v-row>
         <v-col cols="12" md="4">
-            <p>Pick a song</p>
-
+            <SongpickerDialog />
+            
             <v-overflow-btn
             class="my-2"
             :items="songlist"
@@ -33,6 +32,7 @@
             v-model="song"
             label="Songs"
             editable
+            hide-no-data
             item-value="text"
             ></v-overflow-btn>
         </v-col>
@@ -53,9 +53,11 @@
 </template>
 
 <script>
+import SongpickerDialog from './SongpickerDialog'
+
 export default {
     name: 'SongrequestForm',
-    props: ['songprop'],
+    components: { SongpickerDialog },
     data: () => ({
         valid: false,
         firstname: '',
@@ -68,10 +70,21 @@ export default {
             v => !!v || 'Song is required'
         ],
     }),
+    watch: {
+      firstname: function(newvalue){
+        this.$store.commit('setFirstname', newvalue);
+      },
+      lastname: function(newvalue){
+        this.$store.commit('setLastname', newvalue);
+      },
+      song: function(newvalue){
+        this.$store.commit('setSong', newvalue);
+      },
+    },
     computed: {
         songlist() {
             return this.$store.getters.getSongsDisplayName;
-        }
+        },
     },
     methods: {
         submit() {
@@ -86,10 +99,9 @@ export default {
         }
     },
     mounted(){
-        if (this.songprop) {
-          this.song = this.songprop;
-          console.log('Song: ' + this.song);
-        }
+        this.song = this.$store.state.song;
+        this.firstname = this.$store.state.firstname;
+        this.lastname = this.$store.state.lastname;
     }
 }
 </script>

@@ -8,11 +8,9 @@
         </v-list-item-content>
 
         <v-list-item-action>
-            <router-link :to="{name: 'sing', params:{song: song.displayName}}">
-                <v-btn icon elevation="3">
-                    <v-icon>mdi-microphone-variant</v-icon>
-                </v-btn>
-            </router-link>
+            <v-btn icon @click="setSong" elevation="3">
+                <v-icon>mdi-microphone-variant</v-icon>
+            </v-btn>
         </v-list-item-action>
 
     </v-list-item>
@@ -21,7 +19,13 @@
 <script>
 export default {
     name: 'SongItem',
-    props: ['song']
+    props: ['song'],
+    methods: {
+        setSong(){
+            this.$store.commit('setSong', this.song.displayName);
+            this.$router.push('/');
+        }
+    }
 }
 </script>
 

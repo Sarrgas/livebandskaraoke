@@ -9,7 +9,10 @@ export default new Vuex.Store({
   state: {
     songList: [],
     trackedSongrequests: [],
-    allSongrequests: []
+    allSongrequests: [],
+    firstname: '',
+    lastname: '',
+    song: ''
   },
   plugins: [createPersistedState({
     paths: ['trackedSongrequests']
@@ -32,6 +35,15 @@ export default new Vuex.Store({
       let index = state.allSongrequests.findIndex(i => i.id == songrequest.id);
       state.allSongrequests.splice(index, 1);
     },
+    setFirstname(state, firstname){
+      state.firstname = firstname;
+    },
+    setLastname(state, lastname){
+      state.lastname = lastname;
+    },
+    setSong(state, song){
+      state.song = song;
+    }
   },
   getters: {
     getSortedSongrequestList(state){
