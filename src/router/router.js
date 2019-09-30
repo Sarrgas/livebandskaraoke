@@ -13,7 +13,8 @@ export default new Router({
       path: '/',
       alias: ['/sing', '/sjung'],
       name: 'sing',
-      component: SingPage
+      component: SingPage,
+      props: { song: '' }
     },
     {
       path: '/songs',

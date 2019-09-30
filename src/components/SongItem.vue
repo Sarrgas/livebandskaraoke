@@ -8,7 +8,11 @@
         </v-list-item-content>
 
         <v-list-item-action>
-            <v-icon>mdi-microphone-variant</v-icon>
+            <router-link :to="{name: 'sing', params:{song: song.displayName}}">
+                <v-btn icon elevation="3">
+                    <v-icon>mdi-microphone-variant</v-icon>
+                </v-btn>
+            </router-link>
         </v-list-item-action>
 
     </v-list-item>
@@ -24,5 +28,8 @@ export default {
 <style scoped>
 .v-list-item__subtitle{
     white-space: normal !important;
+}
+.router-link-active{
+    text-decoration: none;
 }
 </style>

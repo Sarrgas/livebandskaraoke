@@ -1,6 +1,6 @@
 <template>
     <div>
-        <SongrequestForm />
+        <SongrequestForm :songprop="song"/>
         <hr>
         <SongrequestTracker />
     </div>
@@ -15,6 +15,11 @@ export default {
     components: { 
         SongrequestForm,
         SongrequestTracker
+    },
+    computed: {
+        song(){
+            return this.$route.params.song;
+        }
     }
 }
 </script>
@@ -22,3 +27,4 @@ export default {
 <style>
 
 </style>
+

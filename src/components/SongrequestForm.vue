@@ -55,6 +55,7 @@
 <script>
 export default {
     name: 'SongrequestForm',
+    props: ['songprop'],
     data: () => ({
         valid: false,
         firstname: '',
@@ -82,6 +83,12 @@ export default {
             this.$store.dispatch('submit', songrequest);
 
             this.$refs.form.reset();
+        }
+    },
+    mounted(){
+        if (this.songprop) {
+          this.song = this.songprop;
+          console.log('Song: ' + this.song);
         }
     }
 }
