@@ -8,6 +8,9 @@
             :rules="nameRules"
             label="First name"
             required
+            outlined
+            clearable
+            prepend-inner-icon="mdi-account"
           ></v-text-field>
         </v-col>
 
@@ -17,6 +20,9 @@
             :rules="nameRules"
             label="Last name"
             required
+            outlined
+            clearable
+            prepend-inner-icon="mdi-account"
           ></v-text-field>
         </v-col>
       </v-row>

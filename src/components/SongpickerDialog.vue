@@ -3,11 +3,14 @@
         <template v-slot:activator="{ on }">
             <v-text-field
             :rules="songRules"
-            :value="label"
-            placeholder="Pick a song"
+            :value="currentSong"
+            label="Pick a song"
             required
             v-on="on"
             readonly
+            outlined
+            clearable
+            prepend-inner-icon="mdi-microphone-variant"
             ></v-text-field>
         </template>
         <v-card>
@@ -52,9 +55,8 @@ export default {
     methods: {
         search(song){
             let regex = /[^a-zA-Z0-9]/gm;
-
             let displayname = song.displayName.toLowerCase().replace(regex, '');
-            let search = this.input.toLowerCase().replace(regex, '');
+            let search = this.input ? this.input.toLowerCase().replace(regex, '') : '';
 
             return displayname.includes(search);
         },
@@ -64,7 +66,7 @@ export default {
         }
     },
     computed: {
-        label(){
+        currentSong(){
             return this.$store.state.song || '';
         },
         songList(){
