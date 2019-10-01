@@ -97,7 +97,6 @@ export default new Vuex.Store({
       };
       submitSongrequest(timestampedSongrequest).then(newdoc => {
         newdoc.get().then(doc => {
-          console.log('DB responded with: ', doc.id, doc.data());
           commit('trackSongrequest', {...timestampedSongrequest, id: doc.id});
         })
       });

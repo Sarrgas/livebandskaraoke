@@ -24,7 +24,7 @@ function submitSongrequest(songrequest){
 
 function removeSongrequest(songrequest){
     db.collection('songrequests').doc(songrequest.id).delete().then(function() {
-        console.log("Document successfully deleted!");
+        
     }).catch(function(error) {
         console.error("Error removing document: ", error);
     });

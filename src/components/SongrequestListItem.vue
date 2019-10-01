@@ -21,7 +21,6 @@ export default {
     components: {ConfirmDialog},
     computed: {
         positionInQueue(){
-            console.log('Run positionInQueue');
             let sortedList = this.$store.getters.getSortedSongrequestList;
             return sortedList.findIndex(i => i.id == this.songrequest.id) +1;
         }
