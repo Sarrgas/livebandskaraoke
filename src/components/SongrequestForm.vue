@@ -75,9 +75,9 @@ export default {
     methods: {
         submit() {
             const songrequest = {
-                firstname: this.firstname,
-                lastname: this.lastname,
-                song: this.song
+                firstname: this.$store.state.firstname,
+                lastname: this.$store.state.lastname,
+                song: this.$store.state.song
             }
             this.$store.dispatch('submit', songrequest);
 
