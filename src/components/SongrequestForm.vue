@@ -24,17 +24,6 @@
       <v-row>
         <v-col cols="12" md="4">
             <SongpickerDialog />
-            
-            <v-overflow-btn
-            class="my-2"
-            :items="songlist"
-            :rules="songRules"
-            v-model="song"
-            label="Songs"
-            editable
-            hide-no-data
-            item-value="text"
-            ></v-overflow-btn>
         </v-col>
       </v-row>
 
@@ -65,10 +54,7 @@ export default {
         song: '',
         nameRules: [
             v => !!v || 'Name is required'
-        ],
-        songRules: [
-            v => !!v || 'Song is required'
-        ],
+        ]
     }),
     watch: {
       firstname: function(newvalue){
