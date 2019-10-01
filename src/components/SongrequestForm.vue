@@ -2,7 +2,7 @@
   <v-form v-model="valid" @submit.prevent="submit" ref="form">
     <v-container>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12">
           <v-text-field
             v-model="firstname"
             :rules="nameRules"
@@ -10,11 +10,13 @@
             required
             outlined
             clearable
+            full-width
             prepend-inner-icon="mdi-account"
           ></v-text-field>
         </v-col>
-
-        <v-col cols="12" md="4">
+      </v-row>
+      <v-row>
+        <v-col cols="12">
           <v-text-field
             v-model="lastname"
             :rules="nameRules"
@@ -22,13 +24,14 @@
             required
             outlined
             clearable
+            full-width
             prepend-inner-icon="mdi-account"
           ></v-text-field>
         </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12">
             <SongpickerDialog />
         </v-col>
       </v-row>

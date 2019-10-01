@@ -16,7 +16,15 @@
   </v-app-bar>
 
     <v-content>
-      <router-view />
+      <v-container>
+        <v-layout>
+          <v-flex grow class="hidden-md-and-down"></v-flex>
+          <v-flex>
+            <router-view />
+          </v-flex>
+          <v-flex grow class="hidden-md-and-down"></v-flex>
+        </v-layout>
+      </v-container>
     </v-content>
   </v-app>
 </template>

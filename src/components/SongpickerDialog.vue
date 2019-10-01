@@ -10,6 +10,7 @@
             readonly
             outlined
             clearable
+            @click:clear="clearSong"
             prepend-inner-icon="mdi-microphone-variant"
             ></v-text-field>
         </template>
@@ -63,6 +64,9 @@ export default {
         setSong(song){
             this.$store.commit('setSong', song.displayName);
             this.dialog = false;
+        },
+        clearSong(){
+            this.$store.commit('setSong', '');
         }
     },
     computed: {
