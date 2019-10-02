@@ -79,11 +79,10 @@ export default {
         submit() {
             const song = {
                 artist: this.artist,
-                song: this.songname
+                song: this.songname,
+                displayName: `${this.artist} - ${this.song}`
             }
-            console.log(song);
             this.$store.dispatch('addSong', song);
-
             this.$refs.form.reset();
         }
     },
