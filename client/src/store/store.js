@@ -66,11 +66,26 @@ export default new Vuex.Store({
         let songlist = [];
         songs.docs.forEach(song => {
           let songdata = song.data();
-          let displayName = `${songdata.number}. ${songdata.artist} - ${songdata.song}`;
+          let displayName = `${songdata.artist} - ${songdata.song}`;
           songlist.push({...songdata, displayName});
         });
-        const sortedSongList = songlist.sort((a, b) => {
-          return a.number - b.number;
+        let regex = /[^a-zA-Z0-9]/gm;
+        const sortedSongList = songlist.sort(function(a,b) {
+            // Sortera först på artist
+            if (a.artist.toLowerCase().replace(regex, '') > b.artist.toLowerCase().replace(regex, '')) {
+                return 1;
+            } else if (a.artist.toLowerCase().replace(regex, '') < b.artist.toLowerCase().replace(regex, '')) { 
+                return -1;
+            }
+        
+            // Sedan på låt
+            if (a.song.toLowerCase().replace(regex, '') < b.song.toLowerCase().replace(regex, '')) { 
+                return -1;
+            } else if (a.song.toLowerCase().replace(regex, '') > b.song.toLowerCase().replace(regex, '')) {
+                return 1
+            } else { 
+                return 0;
+            }
         });
         commit('setSongs', sortedSongList);
       });

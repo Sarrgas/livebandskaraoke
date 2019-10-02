@@ -6,7 +6,7 @@
         </v-toolbar>  
                     
         <div v-for="(song, index) in songList" :key="index">
-            <SongItem :song="song"/>
+            <SongItem :song="song" :index="index"/>
         </div>
     </div>
 </template>

@@ -24,7 +24,6 @@
                             required
                             outlined
                             clearable
-                            full-width
                             prepend-inner-icon="mdi-account"
                         ></v-text-field>
                         </v-col>
@@ -38,7 +37,6 @@
                             required
                             outlined
                             clearable
-                            full-width
                             prepend-inner-icon="mdi-microphone-variant"
                         ></v-text-field>
                         </v-col>

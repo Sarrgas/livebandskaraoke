@@ -29,7 +29,7 @@
             <div>
                 <div v-for="(song, index) in songList" :key="index">
                     <v-list-item two-line :ripple="false" @click="setSong(song)">
-                        <v-list-item-avatar> {{song.number}} </v-list-item-avatar>
+                        <v-list-item-avatar> {{index + 1}} </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title>{{song.artist}}</v-list-item-title>
                             <v-list-item-subtitle>{{song.song}}</v-list-item-subtitle>
