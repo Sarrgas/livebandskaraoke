@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { getSongs, getSongrequests, removeSongrequest } from '../db/db';
-import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex)
 
@@ -10,16 +9,15 @@ export default new Vuex.Store({
     songList: [],
     queue: [],
   },
-  plugins: [createPersistedState({
-    paths: ['queue']
-  })],
   mutations: {
     setSongs(state, songs){
       state.songList = songs;
     },
     removeFromQueue(state, songrequest){
       let index = state.queue.findIndex(i => i.id == songrequest.id);
-      state.queue.splice(index, 1);
+      if (index > -1) {
+        state.queue.splice(index, 1);
+      }
     },
     addToQueue(state, songrequest){
       state.queue.push(songrequest);
@@ -55,11 +53,13 @@ export default new Vuex.Store({
 
       getSongrequests().onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
-          const songrequest =  change.doc.data();
-          
+          const songrequest = {
+            ...change.doc.data(),
+            id: change.doc.id
+          } 
+
           if (change.type === 'removed') {
             commit('removeFromQueue', songrequest);
-            commit('removeSongrequest', songrequest);
           }
 
           if (change.type === 'added') {
@@ -69,7 +69,7 @@ export default new Vuex.Store({
       });
     },
     removeSongrequestFromQueue({commit}, songrequest){
-      commit('removeSongrequest', songrequest);
+      commit('removeFromQueue', songrequest);
       removeSongrequest(songrequest);
     }
   }

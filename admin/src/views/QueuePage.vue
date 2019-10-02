@@ -1,16 +1,26 @@
 <template>
     <div>
-        <p>Karaoke-kö</p>
+        <div v-for="(request, index) in queue" :key="index">
+            <SongRequest :songrequest="request" />
+        </div>
     </div>
 </template>
 
 <script>
+import SongRequest from '../components/SongRequest'
+
 export default {
-    name: 'Queue'
+    name: 'Queue',
+    components: {SongRequest},
+    computed: {
+        queue(){
+            return this.$store.getters.getSortedSongrequestList;
+        }
+    }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
 
