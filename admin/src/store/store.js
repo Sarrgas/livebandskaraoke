@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getSongs, getSongrequests, removeSongrequest } from '../db/db';
+import { getSongs, addSong, getSongrequests, removeSongrequest } from '../db/db';
 
 Vue.use(Vuex)
 
@@ -71,6 +71,11 @@ export default new Vuex.Store({
     removeSongrequestFromQueue({commit}, songrequest){
       commit('removeFromQueue', songrequest);
       removeSongrequest(songrequest);
+    },
+    
+    // eslint-disable-next-line no-unused-vars
+    addSong({commit}, song){
+      addSong(song);
     }
   }
 })

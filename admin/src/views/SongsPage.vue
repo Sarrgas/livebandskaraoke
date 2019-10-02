@@ -8,15 +8,18 @@
         <div v-for="(song, index) in songList" :key="index">
             <SongItem :song="song"/>
         </div>
+
+        <NewSongDialog />
     </div>
 </template>
 
 <script>
 import SongItem from '../components/SongItem';
+import NewSongDialog from '../components/NewSongDialog'
 
 export default {
     name: 'SongsPage',
-    components: {SongItem},
+    components: {SongItem, NewSongDialog},
     data() {
         return {
             input: '',

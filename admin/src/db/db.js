@@ -9,9 +9,14 @@ function getSongs() {
     return db.collection('songs').get();
 }
 
+function addSong(song){
+    return db.collection('songs').add(song);
+}
+
 function getSongrequests(){
     return db.collection('songrequests');
 }
+
 
 function removeSongrequest(songrequest){
     db.collection('songrequests').doc(songrequest.id).delete().then(function() {
@@ -21,4 +26,4 @@ function removeSongrequest(songrequest){
     });
 }
 
-export { getSongs, getSongrequests, removeSongrequest }
+export { getSongs, getSongrequests, removeSongrequest, addSong }
