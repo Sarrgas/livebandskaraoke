@@ -23,7 +23,9 @@ export default new Vuex.Store({
     },
     removeSongrequest(state, songrequest){
       let index = state.trackedSongrequests.findIndex(i => i.id == songrequest.id);
-      state.trackedSongrequests.splice(index, 1);
+      if (index) {
+        state.trackedSongrequests.splice(index, 1);
+      }
     },
     setSongs(state, songs){
       state.songList = songs;
@@ -81,6 +83,7 @@ export default new Vuex.Store({
           } 
           if (change.type === 'removed') {
             commit('removeFromAllSongrequests', songrequest);
+            commit('removeSongrequest', songrequest);
           }
 
           if (change.type === 'added') {
