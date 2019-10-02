@@ -9,17 +9,8 @@ function getSongs() {
     return db.collection('songs').get();
 }
 
-
-function getTimeStamp() {
-    return firebase.firestore.Timestamp.now();
-}
-
 function getSongrequests(){
     return db.collection('songrequests');
-}
-
-function submitSongrequest(songrequest){
-    return db.collection('songrequests').add(songrequest);
 }
 
 function removeSongrequest(songrequest){
@@ -30,4 +21,4 @@ function removeSongrequest(songrequest){
     });
 }
 
-export { getSongs, getSongrequests, getTimeStamp, submitSongrequest, removeSongrequest }
+export { getSongs, getSongrequests, removeSongrequest }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getSongs, getSongrequests, getTimeStamp, submitSongrequest, removeSongrequest } from '../db/db';
+import { getSongs, getSongrequests, removeSongrequest } from '../db/db';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex)
@@ -8,48 +8,26 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     songList: [],
-    trackedSongrequests: [],
-    allSongrequests: [],
-    firstname: '',
-    lastname: '',
-    song: ''
+    queue: [],
   },
   plugins: [createPersistedState({
-    paths: ['trackedSongrequests']
+    paths: ['queue']
   })],
   mutations: {
-    trackSongrequest(state, songrequest){
-      state.trackedSongrequests.push(songrequest);
-    },
-    removeSongrequest(state, songrequest){
-      let index = state.trackedSongrequests.findIndex(i => i.id == songrequest.id);
-      if (index) {
-        state.trackedSongrequests.splice(index, 1);
-      }
-    },
     setSongs(state, songs){
       state.songList = songs;
     },
-    addToAllSongrequests(state, songrequest){
-      state.allSongrequests.push(songrequest);
+    removeFromQueue(state, songrequest){
+      let index = state.queue.findIndex(i => i.id == songrequest.id);
+      state.queue.splice(index, 1);
     },
-    removeFromAllSongrequests(state, songrequest){
-      let index = state.allSongrequests.findIndex(i => i.id == songrequest.id);
-      state.allSongrequests.splice(index, 1);
-    },
-    setFirstname(state, firstname){
-      state.firstname = firstname;
-    },
-    setLastname(state, lastname){
-      state.lastname = lastname;
-    },
-    setSong(state, song){
-      state.song = song;
+    addToQueue(state, songrequest){
+      state.queue.push(songrequest);
     }
   },
   getters: {
     getSortedSongrequestList(state){
-      return state.allSongrequests.sort((a, b) => {
+      return state.queue.sort((a, b) => {
         return a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0;
       })
     },
@@ -77,31 +55,17 @@ export default new Vuex.Store({
 
       getSongrequests().onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
-          const songrequest = {
-            id: change.doc.id,
-            timestamp: change.doc.data().timestamp
-          } 
+          const songrequest =  change.doc.data();
+          
           if (change.type === 'removed') {
-            commit('removeFromAllSongrequests', songrequest);
+            commit('removeFromQueue', songrequest);
             commit('removeSongrequest', songrequest);
           }
 
           if (change.type === 'added') {
-            commit('addToAllSongrequests', songrequest)
+            commit('addToQueue', songrequest)
           }
         });
-      });
-    },
-    submit({commit}, songrequest){
-      const timestamp = getTimeStamp();
-      let timestampedSongrequest = {
-        ...songrequest,
-        timestamp
-      };
-      submitSongrequest(timestampedSongrequest).then(newdoc => {
-        newdoc.get().then(doc => {
-          commit('trackSongrequest', {...timestampedSongrequest, id: doc.id});
-        })
       });
     },
     removeSongrequestFromQueue({commit}, songrequest){
