@@ -23,7 +23,7 @@ export default new Vuex.Store({
     },
     removeSongrequest(state, songrequest){
       let index = state.trackedSongrequests.findIndex(i => i.id == songrequest.id);
-      if (index) {
+      if (index > -1) {
         state.trackedSongrequests.splice(index, 1);
       }
     },
